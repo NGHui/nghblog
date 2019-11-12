@@ -20,8 +20,13 @@ public class HuiConfig implements WebMvcConfigurer {
         WebMvcConfigurer configurer = new WebMvcConfigurer() {
             @Override
             public void addViewControllers(ViewControllerRegistry registry) {
+                //页面跳转控制器
                 registry.addViewController("/admin").setViewName("admin/login");
                 registry.addViewController("/admin/index").setViewName("admin/index");
+                registry.addViewController("/admin/blogs").setViewName("admin/blogs");
+                registry.addViewController("/admin/types").setViewName("admin/types");
+                registry.addViewController("/admin/tags").setViewName("admin/tags");
+                registry.addViewController("/admin/tags/input").setViewName("admin/tags-input");
                 //防止表单提交,要使用页面跳转
                 //registry.addViewController("/main.html").setViewName("index");
 
