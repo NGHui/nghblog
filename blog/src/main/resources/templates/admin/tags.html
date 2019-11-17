@@ -43,7 +43,7 @@
 <div class="ui attached pointing menu">
     <div class="ui container">
         <div class="right menu">
-            <a href="#" th:href="@{/admin/tags/input}" class="item">新增</a>
+            <a href="#" th:href="@{/admin/tag/input}" class="item">新增</a>
             <a href="#" th:href="@{/admin/tags}" class="teal active item">列表</a>
         </div>
     </div>
@@ -167,8 +167,8 @@
                       console.log(res.data.data)
                       console.log(res.data.data.list)
                     if (res.data.code = 100) {
-                    this.tags=res.data.data.list
-                    this.pages=res.data.data
+                        this.tags=res.data.data.list
+                        this.pages=res.data.data
                 } else {
                     layer.msg(res.data.msg, {time: 1500, icon: 2, shift: 6}, function () {
                     });return;
@@ -228,7 +228,7 @@
                 })
             }
         },
-        mounted:function() {
+        created:function() {
            this.getListTag()
         },
 

@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>分类管理</title>
+    <title>分类新增</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="/lib/editormd/css/editormd.min.css">
     <link rel="stylesheet" href="/css/me.css">
 </head>
 <body>
@@ -40,48 +41,36 @@
 <div class="ui attached pointing menu">
     <div class="ui container">
         <div class="right menu">
-            <a href="#" th:href="@{/admin/type/input}" class="item">新增</a>
+            <a href="#" th:href="@{/admin/types/input}" class="item">新增</a>
             <a href="#" th:href="@{/admin/types}" class="teal active item">列表</a>
         </div>
     </div>
 </div>
 
 <!--中间内容-->
-<div class="m-container-small m-padded-tb-big" id="app">
-    <div class="ui container">
-        <table class="ui compact teal table">
-            <thead>
-            <tr>
-                <th></th>
-                <th>名称</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(type,i) in types">
-                <td>{{i+1}}</td>
-                <td>{{type.name}}</td>
-                <td>
-                    <a  @click="updateType(type)" class="ui mini teal basic button">编辑</a>
-                    <a  @click="deleteType(type)" class="ui mini red basic button">删除</a>
-                </td>
-            </tr>
-            </tbody>
-            <tfoot>
-            <tr>
-                <th colspan="6">
-                    <div class="ui mini pagination menu">
-                        <a v-if="pages.pageNum > 1" @click="prePage" class="item">上一页</a>
-                        <a v-if="pages.pageNum < pages.pages" @click="nextPage" class="item">下一页</a>
-                    </div>
-                    <a href="#" th:href="@{/admin/type/input}" class="ui mini right floated teal basic button">新增</a>
-                </th>
-            </tr>
-            </tfoot>
-        </table>
+<div class="m-container-small m-padded-tb-big">
+    <div class="ui container" id="app">
+        <form @submit.prevent="updateType" class="ui form">
+            <div class=" field">
+                <div class="ui left labeled input">
+                    <label class="ui teal basic label">名称</label>
+                    <input type="text" id="name" name="name" v-model="types.name" placeholder="分类名称" >
+                </div>
+            </div>
+            <div class="ui right aligned container">
+                <button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>
+                <button class="ui teal submit button">提交</button>
+            </div>
+        </form>
     </div>
 </div>
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <br>
 <br>
 <!--底部footer-->
@@ -125,7 +114,9 @@
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/layer/layer.js"></script>
-<script type="text/javascript">
+
+<script>
+
     $('.menu.toggle').click(function () {
         $('.m-item').toggleClass('m-mobile-hide');
     });
@@ -133,98 +124,58 @@
     $('.ui.dropdown').dropdown({
         on: 'hover'
     });
+
     var vue = new Vue({
         el: '#app',
-        data: function () {
-            return {
-                types: {
-                    /*返回的是一个集合List<type>*/
-                    id:'',
-                    name:''
-                },
-                pages: {
-                    /*返回的是一个对象 包含分页的所有的信息 这里设置了默认的起始页 1*/
-                    pageNum: 1,
-                }
-            }
+        data: {
+            types:{
+                name:'',
+            },
+            name:'',
         },
+
         methods: {
-            //获取后端传过来的数据
-            getListTypes: function () {
+            updateType: function() {
+                //alert(this.types.name)
                 axios({
-                    method: 'get',
-                    url: 'http://localhost:8888/admin/typeList?pageNum=' + this.pages.pageNum,
+                    method: 'post',
+                    url: 'http://localhost:8888/admin/updateType',
                     headers: {
                         'Content-type': 'application/json;charset=UTF-8'
                     },
-                }).then(res => {
-                    console.log(res.data.data)
-                    console.log(res.data.data.list)
-                    if (res.data.code = 100) {
-                        this.types=res.data.data.list
-                        this.pages=res.data.data
-                } else {
-                    layer.msg(res.data.msg, {time: 1500, icon: 2, shift: 6}, function () {
-                    });return;
-                }
-            })
-            },
-            //下一页
-            nextPage:function () {
-                console.log(this.pages.pageNum)
-                this.pages.pageNum++;
-                this.getListTypes();
-            },
-            //上一页
-            prePage:function () {
-                console.log(this.pages.pageNum)
-                this.pages.pageNum--;
-                this.getListTypes();
-            },
-            //更新
-            updateType:function(type){
-                axios({
-                    method: 'get',
-                    url: 'http://localhost:8888/admin/types/'+type.id,
-                    headers: {
-                        'Content-type': 'application/json;charset=UTF-8'
-                    },
-                }).then(function (value) {
-                    //console.log(value)
-                    if (value.data.code == 100) {
-                        layer.msg(value.data.extend.success, {time: 1500, icon: 6, shift: 6}, function () {
-                            window.location.href = 'http://localhost:8888/admin/type/edit';
-                        });
-                    } else {
-                        layer.msg(res.data.msg, {time: 1500, icon: 2, shift: 6}, function () {
-                        });return;
-                    }
-                })
-            },
-            //删除
-            deleteType:function (type) {
-                axios({
-                    method: 'get',
-                    url: 'http://localhost:8888/admin/types/delete/'+type.id,
-                    headers: {
-                        'Content-type': 'application/json;charset=UTF-8'
+                    params: {
+                        name: this.types.name,
                     },
                 }).then(function (value) {
                     if (value.data.code == 100) {
                         layer.msg(value.data.extend.success, {time: 1500, icon: 6, shift: 6}, function () {
                             window.location.href = 'http://localhost:8888/admin/types';
                         });
-                    } else {
-                        layer.msg(res.data.msg, {time: 1500, icon: 2, shift: 6}, function () {
+                    }
+                    else {
+                        layer.msg(value.data.extend.error, {time: 1500, icon: 2, shift: 6}, function () {
                         });return;
                     }
                 })
+            },
+            echoData:function () {
+                axios({
+                    method: 'get',
+                    url: 'http://localhost:8888/admin/echoDataType',
+                    headers: {
+                        'Content-type': 'application/json;charset=UTF-8'
+                    },
+                }).then(res=>{
+                    console.log(res.data.data)
+                    if (res.data.code = 100) {
+                    this.types=res.data.data
+                }
+            })
             }
         },
-        created: function () {
-            this.getListTypes();
+        created:function () {
+            this.echoData();
         }
-
     });
 
 </script>

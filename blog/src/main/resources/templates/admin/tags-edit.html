@@ -40,7 +40,7 @@
 <div class="ui attached pointing menu">
     <div class="ui container">
         <div class="right menu">
-            <a href="#" th:href="@{/admin/tags/input}" class="item">新增</a>
+            <a href="#" th:href="@{/admin/tag/input}" class="item">新增</a>
             <a href="#" th:href="@{/admin/tags}" class="teal active item">列表</a>
         </div>
     </div>
@@ -48,6 +48,8 @@
 <!--中间内容-->
 <div class="m-container-small m-padded-tb-big">
     <div class="ui container" id="app">
+        <!--获取session域中的值-->
+        <!--<input type="hidden" name="updateId" th:value="${session.updateId}">-->
         <form action="#" @submit.prevent="updateTag" method="post" class="ui form">
             <div class=" field">
                 <div class="ui left labeled input">
@@ -160,7 +162,7 @@
             echoData:function () {
                 axios({
                     method: 'get',
-                    url: 'http://localhost:8888/admin/echoData',
+                    url: 'http://localhost:8888/admin/echoDataTag',
                     headers: {
                         'Content-type': 'application/json;charset=UTF-8'
                     },

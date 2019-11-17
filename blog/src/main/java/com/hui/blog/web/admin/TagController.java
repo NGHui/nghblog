@@ -9,12 +9,9 @@ import com.hui.blog.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -40,7 +37,7 @@ public class TagController {
             if (i > 0) {
                 return Msg.success().add("success", "添加标签成功!!!");
             } else {
-                return Msg.fail().add("error", "添加失败!!!");
+                return Msg.fail().add("error", "添加分类失败!!!");
             }
         } else {
             return Msg.fail().add("error", "该标签已经存在,不能重复添加!");
@@ -82,9 +79,9 @@ public class TagController {
     }
 
     //回显更新数据
-    @GetMapping("/echoData")
+    @GetMapping("/echoDataTag")
     @ResponseBody
-    public Msg echoData(Long id, HttpSession session) {
+    public Msg echoData(HttpSession session) {
         Long updateId = (Long) session.getAttribute("updateId");
         Tag byIdTag = tagService.getByIdTag(updateId);
         if (byIdTag != null) {

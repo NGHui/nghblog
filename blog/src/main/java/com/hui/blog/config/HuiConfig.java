@@ -25,6 +25,8 @@ public class HuiConfig implements WebMvcConfigurer {
                 registry.addViewController("/admin/index").setViewName("admin/index");
                 registry.addViewController("/admin/blogs").setViewName("admin/blogs");
                 registry.addViewController("/admin/types").setViewName("admin/types");
+                registry.addViewController("/admin/type/input").setViewName("admin/types-input");
+                registry.addViewController("/admin/type/edit").setViewName("admin/types-edit");
                 registry.addViewController("/admin/tags").setViewName("admin/tags");
                 registry.addViewController("/admin/tag/input").setViewName("admin/tags-input");
                 registry.addViewController("/admin/tag/edit").setViewName("admin/tags-edit");
