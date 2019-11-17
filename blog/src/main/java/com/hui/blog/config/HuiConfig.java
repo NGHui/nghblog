@@ -26,13 +26,13 @@ public class HuiConfig implements WebMvcConfigurer {
                 registry.addViewController("/admin/blogs").setViewName("admin/blogs");
                 registry.addViewController("/admin/types").setViewName("admin/types");
                 registry.addViewController("/admin/tags").setViewName("admin/tags");
-                registry.addViewController("/admin/tags/input").setViewName("admin/tags-input");
+                registry.addViewController("/admin/tag/input").setViewName("admin/tags-input");
+                registry.addViewController("/admin/tag/edit").setViewName("admin/tags-edit");
                 //防止表单提交,要使用页面跳转
                 //registry.addViewController("/main.html").setViewName("index");
-
             }
             //注册拦截器
-            @Override
+          /*  @Override
             public void addInterceptors(InterceptorRegistry registry) {
                 //super.addInterceptors(registry);
                 //静态资源；  *.css , *.js
@@ -40,7 +40,7 @@ public class HuiConfig implements WebMvcConfigurer {
                 //SpringBoot2.0以上拦截器不会对静态资源默认放行
                 registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**")
                         .excludePathPatterns("/","/admin","/admin/tologin","/css/**","/images/**","/js/**","/layer/**","/lib/**");
-            }
+            }*/
         };
         return configurer;
     }

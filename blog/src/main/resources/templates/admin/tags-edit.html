@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>博客管理</title>
+    <title>标签新增</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
     <link rel="stylesheet" href="/css/me.css">
 </head>
@@ -14,11 +14,11 @@
     <div class="ui container">
         <div class="ui inverted secondary stackable menu">
             <h2 class="ui teal header item">管理后台</h2>
-            <a href="#" th:href="@{/admin/blogs}" class="active m-item item m-mobile-hide"><i
+            <a href="#" th:href="@{/admin/blogs}" class=" m-item item m-mobile-hide"><i
                     class="mini home icon"></i>博客</a>
             <a href="#" th:href="@{/admin/types}" class=" m-item item m-mobile-hide"><i
                     class="mini idea icon"></i>分类</a>
-            <a href="#" th:href="@{/admin/tags}" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
+            <a href="#" th:href="@{/admin/tags}" class="active m-item item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
             <div class="right m-item m-mobile-hide menu">
                 <div class="ui dropdown  item">
                     <div class="text">
@@ -40,93 +40,36 @@
 <div class="ui attached pointing menu">
     <div class="ui container">
         <div class="right menu">
-            <a href="#" th:href="@{/admin/blogs/input}" class=" item">发布</a>
-            <a href="#" th:href="@{/admin/blogs}" class="teal active item">列表</a>
+            <a href="#" th:href="@{/admin/tags/input}" class="item">新增</a>
+            <a href="#" th:href="@{/admin/tags}" class="teal active item">列表</a>
         </div>
     </div>
 </div>
-
 <!--中间内容-->
 <div class="m-container-small m-padded-tb-big">
-    <div class="ui container">
-        <div class="ui secondary segment form">
-            <input type="hidden" name="page">
-            <div class="inline fields">
-                <div class="field">
-                    <input type="text" name="title" placeholder="标题">
-                </div>
-                <div class="field">
-                    <div class="ui labeled action input">
-                        <div class="ui type selection dropdown">
-                            <input type="hidden" name="typeId">
-                            <i class="dropdown icon"></i>
-                            <div class="default text">分类</div>
-                            <div class="menu">
-                                <div class="item" data-value="1">错误日志</div>
-                                <div class="item" data-value="2">开发者手册</div>
-                            </div>
-                        </div>
-                        <button id="clear-btn" class="ui compact button">clear</button>
-                    </div>
-
-                </div>
-                <div class="field">
-                    <div class="ui checkbox">
-                        <input type="checkbox" id="recommend" name="recommend">
-                        <label for="recommend">推荐</label>
-                    </div>
-                </div>
-                <div class="field">
-                    <button type="button" id="search-btn" class="ui mini teal basic button"><i class="search icon"></i>搜索
-                    </button>
+    <div class="ui container" id="app">
+        <form action="#" @submit.prevent="updateTag" method="post" class="ui form">
+            <div class=" field">
+                <div class="ui left labeled input">
+                    <label class="ui teal basic label">名称</label>
+                    <!--v-bind:pageNum="pages.pageNum+1"-->
+                    <input  type="text" id="name" v-model="tags.name" name="name"  placeholder="分类名称" >
                 </div>
             </div>
-        </div>
-        <div id="table-container">
-            <table class="ui compact teal table">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>标题</th>
-                    <th>类型</th>
-                    <th>推荐</th>
-                    <th>状态</th>
-                    <th>更新时间</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>刻意练习清单</td>
-                    <td>认知升级</td>
-                    <td>是</td>
-                    <td>草稿</td>
-                    <td>2017-10-02 09:45</td>
-                    <td>
-                        <a href="#" class="ui mini teal basic button">编辑</a>
-                        <a href="#" class="ui mini red basic button">删除</a>
-                    </td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr>
-                    <th colspan="7">
-                        <div class="ui mini pagination menu">
-                            <a class="item">上一页</a>
-                            <a class=" item">下一页</a>
-                        </div>
-                        <a href="#" class="ui mini right floated teal basic button">新增</a>
-                    </th>
-                </tr>
-                </tfoot>
-            </table>
-
-        </div>
-
+            <div class="ui right aligned container">
+                <button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>
+                <button class="ui teal submit button">提交</button>
+            </div>
+        </form>
     </div>
 </div>
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <br>
 <br>
 <!--底部footer-->
@@ -168,6 +111,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/layer/layer.js"></script>
 
 <script>
     $('.menu.toggle').click(function () {
@@ -178,21 +124,58 @@
         on: 'hover'
     });
 
-    //消息提示关闭初始化
-    $('.message .close')
-        .on('click', function () {
-            $(this)
-                .closest('.message')
-                .transition('fade');
-        });
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            tags:{
+                name:'',
+            },
+            name:'',
+        },
 
-    $('#clear-btn')
-        .on('click', function () {
-            $('.ui.type.dropdown')
-                .dropdown('clear')
-            ;
-        })
-    ;
+        methods: {
+            updateTag: function() {
+                //alert(this.tags.name)
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:8888/admin/updateTag',
+                    headers: {
+                        'Content-type': 'application/json;charset=UTF-8'
+                    },
+                    params: {
+                        name: this.tags.name,
+                    },
+                }).then(function (value) {
+                    if (value.data.code == 100) {
+                        layer.msg(value.data.extend.success, {time: 1500, icon: 6, shift: 6}, function () {
+                            window.location.href = 'http://localhost:8888/admin/tags';
+                        });
+                    }
+                    else {
+                        layer.msg(value.data.extend.error, {time: 1500, icon: 2, shift: 6}, function () {
+                        });return;
+                    }
+                })
+            },
+            echoData:function () {
+                axios({
+                    method: 'get',
+                    url: 'http://localhost:8888/admin/echoData',
+                    headers: {
+                        'Content-type': 'application/json;charset=UTF-8'
+                    },
+                }).then(res=>{
+                    console.log(res.data.data)
+                    if (res.data.code = 100) {
+                    this.tags=res.data.data
+                }
+                })
+            }
+        },
+        created:function () {
+            this.echoData();
+        }
+    });
 
 </script>
 </body>

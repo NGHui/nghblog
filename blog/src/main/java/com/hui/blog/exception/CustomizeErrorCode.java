@@ -11,7 +11,7 @@ package com.hui.blog.exception;
  */
 public enum CustomizeErrorCode implements ICustomizeErrorCode {
 
-    ;
+    SERVER_ERROR(1001,"服务器异常!");
 
     private Integer code;
     private String message;
